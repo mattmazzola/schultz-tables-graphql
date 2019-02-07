@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/dbe085e6-4448-4069-ab44-483eafb5c59b/resourceGroups/schultz-tables-rg/providers/Microsoft.Web/sites/schultztablesgraphql",
+    "appService.deploySubpath": ""
+}
