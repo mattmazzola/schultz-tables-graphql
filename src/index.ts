@@ -23,7 +23,8 @@ adal.Logging.setLoggingOptions({
     context: ({ req }: any) => context({ req }, db)
   })
 
-  const serverInfo = await server.listen()
+  const port = process.env.PORT || 4000
+  const serverInfo = await server.listen(port)
   const { url } = serverInfo
   console.log(`🚀  Server ready at ${url}`);
 })()}
