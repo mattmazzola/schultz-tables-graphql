@@ -6,7 +6,6 @@
   "types": "build/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "prestart": "npm run build",
     "start": "node ./build/index.js",
     "watch": "concurrently --kill-others -p [{name}-{pid}] -n tsc,bot \"tsc -w\" \"nodemon\"",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -49,12 +48,13 @@
     "graphql-codegen-typescript-common": "^0.16.1",
     "graphql-codegen-typescript-resolvers": "^0.16.1",
     "graphql-codegen-typescript-server": "^0.16.1",
+    "kuduscript": "^1.0.17",
     "nodemon": "^1.18.9",
     "ts-node": "^8.0.2",
     "typescript": "^3.2.4"
   },
   "engines": {
-    "node": "8.x"
+    "node": ">=8.0.0"
   },
   "nodemonConfig": {
     "watch": [

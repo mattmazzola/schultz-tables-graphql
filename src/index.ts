@@ -20,6 +20,8 @@ adal.Logging.setLoggingOptions({
     engine: {
       apiKey: process.env.ENGINE_API_KEY,
     },
+    introspection: true,
+    playground: true,
     context: ({ req }: any) => context({ req }, db)
   })
 
