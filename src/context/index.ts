@@ -1,13 +1,23 @@
 import mongo from 'mongodb'
+import { AuthenticationError } from 'apollo-server'
 import * as types from '../generated/types'
 import * as models from './models'
 import { IContext } from './models'
 import getDb from './db'
+import { getJwt } from '../utilities'
 
-export const context = async ({ req }: { req: any }, db: mongo.Db): Promise<IContext | Error> => {
-    const authHeader: string = req.headers['authorization']
-    const jwt = authHeader && authHeader.startsWith('Bearer') ? authHeader.slice('Bearer '.length) : undefined
-    const user = jwt ? JSON.parse(Buffer.from(jwt.split('.')[1], 'base64').toString('utf8')) : undefined
+// https://www.apollographql.com/docs/apollo-server/features/authentication.html
+export const context = async ({ req }: { req: any }, db: mongo.Db, audence: string, publicKey: string): Promise<IContext | Error> => {
+    const authorization: string = req.headers.authorization
+    let decodedJwt
+
+    try {
+        decodedJwt = await getJwt(authorization, audence, publicKey)
+    }
+    catch (e) {
+        const error = e as Error
+        throw new AuthenticationError(error.message)
+    }
 
     try {
         const scores = db.collection<types.Score>('scores')
@@ -19,7 +29,7 @@ export const context = async ({ req }: { req: any }, db: mongo.Db): Promise<ICon
             scores,
             tableTypes,
             tableLayouts,
-            user
+            user: decodedJwt
         }
     }
     catch (e) {
